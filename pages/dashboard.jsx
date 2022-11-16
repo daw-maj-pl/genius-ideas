@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where
+} from 'firebase/firestore';
 import { auth, db } from '../utils/firebase';
-import Message from '../components/message';
+import Message from '../components/Message';
+import { BsTrash2Fill } from 'react-icons/bs';
 
 export default function Dashboard() {
   const route = useRouter();
@@ -22,6 +30,11 @@ export default function Dashboard() {
     return unsubscribe;
   };
 
+  const deletePost = async id => {
+    const postRef = doc(db, 'posts', id);
+    await deleteDoc(postRef);
+  };
+
   useEffect(() => {
     getData();
   }, [user, loading]);
@@ -31,7 +44,18 @@ export default function Dashboard() {
       <h1>Your posts</h1>
       <div>
         {posts.map(post => {
-          return <Message {...post} key={post.id}></Message>;
+          return (
+            <Message {...post} key={post.id}>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => deletePost(post.id)}
+                  className="text-pink-600 flex items-center justify-center gap-2 py-2 text-sm"
+                >
+                  <BsTrash2Fill className="text-2xl" /> Delete
+                </button>
+              </div>
+            </Message>
+          );
         })}
       </div>
       <button
