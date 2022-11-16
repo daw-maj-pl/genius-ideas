@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   collection,
@@ -35,6 +36,10 @@ export default function Dashboard() {
   const deletePost = async id => {
     const postRef = doc(db, 'posts', id);
     await deleteDoc(postRef);
+    toast.error('Post has been deleted', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 1500
+    });
   };
 
   useEffect(() => {

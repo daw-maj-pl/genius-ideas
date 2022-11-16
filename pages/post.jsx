@@ -40,6 +40,10 @@ export default function Post() {
       const postRef = doc(db, 'posts', post.id);
       const updatedPost = { ...post, timestamp: serverTimestamp() };
       await updateDoc(postRef, updatedPost);
+      toast.success('Post has been updated', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500
+      });
       return route.push('/');
     } else {
       //Make a new post
@@ -51,6 +55,10 @@ export default function Post() {
         username: user.displayName
       });
       setPost({ description: '' });
+      toast.success('Post has been made', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500
+      });
       return route.push('/');
     }
   };
