@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   collection,
@@ -12,6 +13,7 @@ import {
 import { auth, db } from '../utils/firebase';
 import Message from '../components/Message';
 import { BsTrash2Fill } from 'react-icons/bs';
+import { AiFillEdit } from 'react-icons/ai';
 
 export default function Dashboard() {
   const route = useRouter();
@@ -53,6 +55,12 @@ export default function Dashboard() {
                 >
                   <BsTrash2Fill className="text-2xl" /> Delete
                 </button>
+                <Link href={{ pathname: '/post', query: post }}>
+                  <button className="text-teal-600 flex items-center justify-center gap-2 py-2 text-sm">
+                    <AiFillEdit className="text-2xl" />
+                    Edit
+                  </button>
+                </Link>
               </div>
             </Message>
           );
