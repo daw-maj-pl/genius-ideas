@@ -7,25 +7,20 @@ import { auth } from '../../utils/firebase';
 
 export default function Login() {
   const route = useRouter();
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   //Sign in with google
   const googleProvider = new GoogleAuthProvider();
   const GoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      route.push('/');
+      await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      route.push('/');
-    } else {
-      console.log('login');
-    }
+    user && route.push('/');
   }, [user]);
 
   return (
