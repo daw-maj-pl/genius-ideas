@@ -5,10 +5,12 @@ import Layout from '../components/Layout';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <ToastContainer limit={1} />
-      <Component {...pageProps} />
-    </Layout>
+    <>
+      <ToastContainer />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </>
   );
 }
 
