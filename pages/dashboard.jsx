@@ -21,10 +21,7 @@ export default function Dashboard() {
   const [user, loading] = useAuthState(auth);
   const [posts, setPosts] = useState([]);
 
-  const getData = async () => {
-    if (loading) return;
-    if (!user) return route.push('/auth/login');
-
+  const getData = () => {
     const postsRef = collection(db, 'posts');
     const q = query(postsRef, where('user', '==', user.uid));
     const unsubscribe = onSnapshot(q, snapshot => {
@@ -43,8 +40,12 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    getData();
-  }, [user, loading]);
+    if (user) {
+      return getData();
+    } else {
+      route.push('/auth/login');
+    }
+  }, [user]);
 
   return (
     <div>
